@@ -1,7 +1,6 @@
 # Directory Structure
 
-\`\`\`
-/hpcstor6/scratch01/y/yanankristin.qi001/vas_f2/
+
     ├── project/
     │   ├── app.py
     │   ├── templates/
@@ -10,8 +9,8 @@
     │   │   └── (data files)
     │   └── (other project files)
     └── (other directories and files)
-\`\`\`
 
+    
 ## How to Run the Application
 
 1. **Install Flask:**
