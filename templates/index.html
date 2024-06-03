@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Participants</title>
+</head>
+<body>
+    <h1>Participants</h1>
+    <ul>
+        {% for participant in participants %}
+            <li>
+                <span>{{ 'P' + participant[-3:] }}</span> - <a href="{{ url_for('participant', participant_id=participant) }}">View</a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

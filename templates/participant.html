@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Participant {{ display_id }}</title>
+</head>
+<body>
+    <h1>Files for Participant {{ display_id }}</h1>
+    <ul>
+        {% for file_path, formatted_name in files %}
+            <li>
+                {{ formatted_name }} - <a href="{{ url_for('download_file', filename=file_path) }}">Download</a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
