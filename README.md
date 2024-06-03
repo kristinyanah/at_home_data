@@ -1,7 +1,6 @@
-<<<<<<< HEAD
 # Project
 
-## Directory Structure
+## Directory
 ├── project/
 │ ├── app.py
 │ ├── templates/
@@ -23,14 +22,4 @@
 3. **Access the Application:**
 
    Open browser to `http://127.0.0.1:5000/`.
-=======
- 
-    ├── project/
-    │   ├── app.py
-    │   ├── templates/
-    │   │   └── participant.html
-    │   ├── vas-data/
-    │   │   └── (data files)
-    │   └── (other project files)
-    └── (other directories and files)
->>>>>>> origin/master
+
