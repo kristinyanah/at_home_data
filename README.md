@@ -1,25 +1,30 @@
-# Project
+# Directory Structure
 
-## Directory
-├── project/
-│ ├── app.py
-│ ├── templates/
-│ │ └── Participant.html
-    └── Index.html
-│ ├── vas-data/
-│ │ └── Download_All_In_One
-    └── vas-data-phase2-home (Bang)  
+\`\`\`
+/hpcstor6/scratch01/y/yanankristin.qi001/vas_f2/
+    ├── project/
+    │   ├── app.py
+    │   ├── templates/
+    │   │   └── participant.html
+    │   ├── vas-data/
+    │   │   └── (data files)
+    │   └── (other project files)
+    └── (other directories and files)
+\`\`\`
 
-
-##Run the Application
+## How to Run the Application
 
 1. **Install Flask:**
 
+   \`\`\`
+   pip install flask
+   \`\`\`
+
 2. **Run the Application:**
 
-   Navigate to the `project` directory and run `app.py`:
+   Navigate to the \`project\` directory and run \`app.py\`:
 
-3. **Access the Application:**
-
-   Open browser to `http://127.0.0.1:5000/`.
-
+   \`\`\`
+   cd /hpcstor6/scratch01/y/yanankristin.qi001/vas_f2/project
+   python app.py
+   \`\`\`
