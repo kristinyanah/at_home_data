@@ -4,26 +4,24 @@
     ├── project/
     │   ├── app.py
     │   ├── templates/
-    │   │   └── participant.html
+    │   │   └── Participant.html
+        |   └── Index.html   
     │   ├── vas-data/
-    │   │   └── (data files)
-    │   └── (other project files)
-    └── (other directories and files)
+    │   │   └── Download_All_In_One
+    │   |    └── vas-data-phase2-home (Bang)  
+
 
     
-## How to Run the Application
+## Run the Application
 
 1. **Install Flask:**
 
-   \`\`\`
+   
    pip install flask
-   \`\`\`
+  
 
 2. **Run the Application:**
 
-   Navigate to the \`project\` directory and run \`app.py\`:
-
-   \`\`\`
-   cd /hpcstor6/scratch01/y/yanankristin.qi001/vas_f2/project
    python app.py
-   \`\`\`
+
+3.  Open browser to local host like `http://127.0.0.1:5000/`.
