@@ -92,16 +92,16 @@ def get_files_for_participant(participant_id):
         else:
             print(f"Warning: .cha file {cha_file_name} has no corresponding .wav file")
 
-    # Remove base directory prefix from file paths
+     
     for i in range(len(files)):
         file_path, formatted_name = files[i]
         for base_dir in BASE_DIRS:
             if file_path.startswith(base_dir):
-                file_path = file_path[len(base_dir) + 1:]  # +1 to remove the trailing slash
+                file_path = file_path[len(base_dir) + 1:]   
                 files[i] = (file_path, formatted_name)
                 break
 
-    # Sort by start date and then by end date
+     
     files.sort(key=lambda x: (parse_date_from_filename(x[1])[0] or datetime.min, parse_date_from_filename(x[1])[1] or datetime.min))
     return files, display_id
 @app.route('/')
@@ -139,6 +139,6 @@ def show_cha_file(filename):
                 content = file.read()
             return render_template('show_cha.html', content=content)
     return abort(404)
-
+##
 if __name__ == '__main__':
     app.run(debug=True)
