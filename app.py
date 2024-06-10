@@ -101,9 +101,9 @@ def get_files_for_participant(participant_id):
                 files[i] = (file_path, formatted_name)
                 break
 
-    files.sort(key=lambda x: parse_date_from_filename(x[1])[0] or datetime.min)
+    # Sort by start date and then by end date
+    files.sort(key=lambda x: (parse_date_from_filename(x[1])[0] or datetime.min, parse_date_from_filename(x[1])[1] or datetime.min))
     return files, display_id
-
 @app.route('/')
 def index():
     participants = get_participants()
