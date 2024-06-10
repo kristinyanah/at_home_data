@@ -1,4 +1,4 @@
-from flask import Flask, render_template, send_from_directory
+from flask import Flask, render_template, send_from_directory, abort
 import os
 import re
 from datetime import datetime
@@ -60,11 +60,13 @@ def parse_date_from_filename(formatted_name):
         except ValueError:
             return None, None
     return None, None
-
 def get_files_for_participant(participant_id):
     files = []
     year_info = {}
     display_id = f"P{participant_id[-3:]}"
+    cha_files = {}
+    wav_files = {}
+
     for base_dir in BASE_DIRS:
         for root, dirs, files_in_dir in os.walk(base_dir):
             for file_name in files_in_dir:
@@ -73,18 +75,34 @@ def get_files_for_participant(participant_id):
                     if parent_dir.startswith(participant_id):
                         file_path = os.path.join(root, file_name)
                         if file_name.endswith('.cha'):
-                            start_year, end_year = extract_years_from_cha(file_path)
-                            year_info[file_name] = (start_year, end_year)
-                            formatted_name = format_filename(file_name, start_year, end_year, display_id)
-                            files.append((os.path.relpath(file_path, base_dir), formatted_name))
+                            cha_files[file_name] = file_path
                         elif file_name.endswith('.wav'):
-                            cha_file_name = file_name.replace('.wav', '.cha')
-                            if cha_file_name in year_info:
-                                start_year, end_year = year_info[cha_file_name]
-                                formatted_name = format_filename(file_name, start_year, end_year, display_id)
-                                files.append((os.path.relpath(file_path, base_dir), formatted_name))
+                            wav_files[file_name] = file_path
+
+    for cha_file_name, cha_file_path in cha_files.items():
+        base_name = cha_file_name.replace('.cha', '')
+        wav_file_name = base_name + '.wav'
+        if wav_file_name in wav_files:
+            start_year, end_year = extract_years_from_cha(cha_file_path)
+            year_info[cha_file_name] = (start_year, end_year)
+            formatted_cha_name = format_filename(cha_file_name, start_year, end_year, display_id)
+            formatted_wav_name = format_filename(wav_file_name, start_year, end_year, display_id)
+            files.append((cha_file_path, formatted_cha_name))
+            files.append((wav_files[wav_file_name], formatted_wav_name))
+        else:
+            print(f"Warning: .cha file {cha_file_name} has no corresponding .wav file")
+
+    # Remove base directory prefix from file paths
+    for i in range(len(files)):
+        file_path, formatted_name = files[i]
+        for base_dir in BASE_DIRS:
+            if file_path.startswith(base_dir):
+                file_path = file_path[len(base_dir) + 1:]  # +1 to remove the trailing slash
+                files[i] = (file_path, formatted_name)
+                break
+
     files.sort(key=lambda x: parse_date_from_filename(x[1])[0] or datetime.min)
-    return files
+    return files, display_id
 
 @app.route('/')
 def index():
@@ -93,17 +111,34 @@ def index():
 
 @app.route('/participant/<participant_id>')
 def participant(participant_id):
-    files = get_files_for_participant(participant_id)
-    display_id = f"P{participant_id[-3:]}"
-    return render_template('participant.html', participant_id=participant_id, display_id=display_id, files=files)
+    files, display_id = get_files_for_participant(participant_id)
+    return render_template('participant_files.html', participant_id=participant_id, display_id=display_id)
+
+@app.route('/participant/<participant_id>/files/<file_type>')
+def show_files(participant_id, file_type):
+    files, display_id = get_files_for_participant(participant_id)
+    filtered_files = [file for file in files if file[1].endswith(f'.{file_type}')]
+    return render_template('files_list.html', participant_id=participant_id, display_id=display_id, file_type=file_type, files=filtered_files)
 
 @app.route('/files/<path:filename>')
 def download_file(filename):
+    if filename.endswith('.cha'):
+        return show_cha_file(filename)
     for base_dir in BASE_DIRS:
         file_path = os.path.join(base_dir, filename)
         if os.path.exists(file_path):
-            return send_from_directory(base_dir, filename)
+            return send_from_directory(os.path.dirname(file_path), os.path.basename(file_path))
     return "File not found", 404
+
+@app.route('/show_cha/<path:filename>')
+def show_cha_file(filename):
+    for base_dir in BASE_DIRS:
+        file_path = os.path.join(base_dir, filename)
+        if os.path.exists(file_path):
+            with open(file_path, 'r') as file:
+                content = file.read()
+            return render_template('show_cha.html', content=content)
+    return abort(404)
 
 if __name__ == '__main__':
     app.run(debug=True)

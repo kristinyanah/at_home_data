@@ -3,13 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Participants</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <h1>Participants</h1>
     <ul>
         {% for participant in participants %}
             <li>
-                <span>{{ 'P' + participant[-3:] }}</span> - <a href="{{ url_for('participant', participant_id=participant) }}">View</a>
+                <span>{{ 'P' + participant[-3:] }}</span> - 
+                <a href="{{ url_for('participant', participant_id=participant) }}">
+                    <i class="fas fa-folder-open"></i> Open
+                </a>
             </li>
         {% endfor %}
     </ul>

@@ -9,7 +9,7 @@
     <ul>
         {% for file_path, formatted_name in files %}
             <li>
-                {{ formatted_name }} - <a href="{{ url_for('download_file', filename=file_path) }}">Download</a>
+                {{ formatted_name }} - <a href="{{ url_for('download_file', filename=file_path) }}">View</a>
             </li>
         {% endfor %}
     </ul>

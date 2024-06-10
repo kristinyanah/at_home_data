@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Participant {{ participant_id }} Files</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <h1>Files for Participant {{ display_id }}</h1>
+    <ul>
+        <li>
+            <span>{{ display_id }} .cha files</span> - 
+            <a href="{{ url_for('show_files', participant_id=participant_id, file_type='cha') }}">
+                <i class="fas fa-folder-open"></i> Open
+            </a>
+        </li>
+        <li>
+            <span>{{ display_id }} .wav files</span> - 
+            <a href="{{ url_for('show_files', participant_id=participant_id, file_type='wav') }}">
+                <i class="fas fa-folder-open"></i> Open
+            </a>
+        </li>
+    </ul>
+</body>
+</html>
