@@ -25,3 +25,6 @@
    python app.py
 
 3.  Open browser to local host like `http://127.0.0.1:5000/`.
+
+# To save files into local disk, please run:
+    python save.py

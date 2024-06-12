@@ -112,7 +112,7 @@ def index():
 @app.route('/participant/<participant_id>')
 def participant(participant_id):
     files, display_id = get_files_for_participant(participant_id)
-    return render_template('participant_files.html', participant_id=participant_id, display_id=display_id)
+    return render_template('participant_files.html', participant_id=participant_id, display_id=display_id, files=files)
 
 @app.route('/participant/<participant_id>/files/<file_type>')
 def show_files(participant_id, file_type):
